@@ -1,0 +1,22 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+# Large datasets
+Task2_Credit_Card_Fraud_Detection/dataset/fraudTrain.csv
+Task2_Credit_Card_Fraud_Detection/dataset/fraudTest.csv
+Task2_Credit_Card_Fraud_Detection/outputs/processed_dataset.csv

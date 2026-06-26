@@ -1,0 +1,38 @@
+====================================================================================================
+CREDIT CARD FRAUD DETECTION - EDA SUMMARY REPORT
+====================================================================================================
+
+FRAUD STATISTICS
+----------------------------------------------------------------------------------------------------
+Total Transactions: 1,852,394
+Fraudulent Transactions: 9,651
+Legitimate Transactions: 1,842,743
+Fraud Ratio: 0.005210
+Fraud Percentage: 0.5210%
+Average Fraud Amount: $530.66
+Average Legitimate Amount: $67.65
+
+MERCHANT ANALYSIS
+----------------------------------------------------------------------------------------------------
+Total Merchants: 693
+Total Categories: 14
+Top Fraud Category: grocery_pos
+
+LOCATION ANALYSIS
+----------------------------------------------------------------------------------------------------
+Top Fraud State: NY
+Top Fraud City: Houston
+
+TIME ANALYSIS
+----------------------------------------------------------------------------------------------------
+Peak Fraud Hour (24h): 22:00
+
+KEY OBSERVATIONS
+----------------------------------------------------------------------------------------------------
+• Fraud accounts for 0.52% of all transactions
+• 693 unique merchants in the dataset
+• Fraudulent transactions average $530.66 (legitimate: $67.65)
+• Highest fraud activity in NY state
+• Peak fraud hour: 22:00
+
+====================================================================================================
