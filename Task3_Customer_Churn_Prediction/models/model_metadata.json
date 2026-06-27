@@ -1,0 +1,119 @@
+{
+  "created_at": "2026-06-28T01:04:47",
+  "dataset_path": "C:\\Users\\Shifaya Simnas\\Documents\\CODSOFT\\Task3_Customer_Churn_Prediction\\dataset\\Churn_Modelling.csv",
+  "original_rows": 10000,
+  "rows_after_deduplication": 10000,
+  "columns": 14,
+  "target_column": "Exited",
+  "dropped_columns": [
+    "RowNumber",
+    "CustomerId",
+    "Surname"
+  ],
+  "feature_columns": [
+    "CreditScore",
+    "Geography",
+    "Gender",
+    "Age",
+    "Tenure",
+    "Balance",
+    "NumOfProducts",
+    "HasCrCard",
+    "IsActiveMember",
+    "EstimatedSalary"
+  ],
+  "numeric_features": [
+    "CreditScore",
+    "Age",
+    "Tenure",
+    "Balance",
+    "NumOfProducts",
+    "HasCrCard",
+    "IsActiveMember",
+    "EstimatedSalary"
+  ],
+  "categorical_features": [
+    "Geography",
+    "Gender"
+  ],
+  "categorical_values": {
+    "Geography": [
+      "France",
+      "Germany",
+      "Spain"
+    ],
+    "Gender": [
+      "Female",
+      "Male"
+    ]
+  },
+  "numeric_ranges": {
+    "CreditScore": {
+      "min": 350.0,
+      "max": 850.0,
+      "median": 652.0
+    },
+    "Age": {
+      "min": 18.0,
+      "max": 92.0,
+      "median": 37.0
+    },
+    "Tenure": {
+      "min": 0.0,
+      "max": 10.0,
+      "median": 5.0
+    },
+    "Balance": {
+      "min": 0.0,
+      "max": 250898.09,
+      "median": 97198.54000000001
+    },
+    "NumOfProducts": {
+      "min": 1.0,
+      "max": 4.0,
+      "median": 1.0
+    },
+    "HasCrCard": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 1.0
+    },
+    "IsActiveMember": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 1.0
+    },
+    "EstimatedSalary": {
+      "min": 11.58,
+      "max": 199992.48,
+      "median": 100193.915
+    }
+  },
+  "class_distribution": {
+    "0": 7963,
+    "1": 2037
+  },
+  "best_model": "Random Forest",
+  "best_metrics": {
+    "model": "Random Forest",
+    "accuracy": 0.837,
+    "precision": 0.5914221218961625,
+    "recall": 0.6437346437346437,
+    "f1_score": 0.6164705882352941,
+    "roc_auc": 0.8546512614309225
+  },
+  "xgboost_available": false,
+  "shap_available": false,
+  "eda_summary": {
+    "dataset": "C:\\Users\\Shifaya Simnas\\Documents\\CODSOFT\\Task3_Customer_Churn_Prediction\\dataset\\Churn_Modelling.csv",
+    "rows": 10000,
+    "columns": 14,
+    "target": "Exited",
+    "plots": {
+      "class_distribution": "C:\\Users\\Shifaya Simnas\\Documents\\CODSOFT\\Task3_Customer_Churn_Prediction\\outputs\\class_distribution.png",
+      "missing_values": "C:\\Users\\Shifaya Simnas\\Documents\\CODSOFT\\Task3_Customer_Churn_Prediction\\outputs\\missing_values.png",
+      "correlation_heatmap": "C:\\Users\\Shifaya Simnas\\Documents\\CODSOFT\\Task3_Customer_Churn_Prediction\\outputs\\correlation_heatmap.png",
+      "feature_distributions": "C:\\Users\\Shifaya Simnas\\Documents\\CODSOFT\\Task3_Customer_Churn_Prediction\\outputs\\feature_distributions.png"
+    }
+  }
+}

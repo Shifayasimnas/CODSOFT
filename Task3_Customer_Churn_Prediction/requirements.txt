@@ -1,0 +1,9 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+streamlit
+joblib
+xgboost; python_version < "3.14"
+shap; python_version < "3.14"
