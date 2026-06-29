@@ -1,0 +1,16 @@
+MODEL TRAINING SUMMARY
+======================
+Best Model: Random Forest
+Optimized Threshold: 0.9820
+Feature Count: 31
+
+Model Ranking:
+1. Random Forest - PR AUC: 0.8746, ROC AUC: 0.9979, Precision: 0.8676, Recall: 0.7570, F1: 0.8085
+2. Decision Tree - PR AUC: 0.7771, ROC AUC: 0.9808, Precision: 0.8253, Recall: 0.6782, F1: 0.7446
+3. Logistic Regression - PR AUC: 0.2981, ROC AUC: 0.9492, Precision: 0.3775, Recall: 0.5212, F1: 0.4379
+
+Production Notes:
+- Training excludes raw identifiers and target-derived leakage features.
+- SMOTE is applied only after the train/validation split.
+- Fraud probabilities are calibrated before final threshold optimization.
+- Dashboard artifacts include metrics, curves, feature names, and model metadata.

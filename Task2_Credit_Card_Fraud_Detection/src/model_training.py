@@ -44,20 +44,8 @@ except ImportError:
     from config import Config
 
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
-OUTPUT_DIR = ROOT_DIR / "outputs"
-MODEL_DIR = ROOT_DIR / "models"
-PROCESSED_DATA_PATH = OUTPUT_DIR / "processed_dataset.csv"
-BEST_MODEL_PATH = MODEL_DIR / "best_model.pkl"
-SCALER_PATH = MODEL_DIR / "scaler.pkl"
-FEATURE_NAMES_PATH = MODEL_DIR / "feature_names.pkl"
-COMPARISON_PATH = OUTPUT_DIR / "model_comparison.csv"
-SUMMARY_PATH = OUTPUT_DIR / "training_summary.txt"
-METRICS_PATH = OUTPUT_DIR / "model_metrics.json"
-CURVES_PATH = OUTPUT_DIR / "model_curves.json"
-METADATA_PATH = MODEL_DIR / "model_metadata.json"
-TARGET_COLUMN = "is_fraud"
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+TARGET_COLUMN = "is_fraud"
 
 LEAKAGE_PATTERNS = (
     "fraud_rate",
@@ -86,7 +74,7 @@ class TrainingArtifacts:
 
 def load_data(data_path: Optional[Path] = None) -> pd.DataFrame:
     """Load the processed dataset from disk."""
-    source = data_path or PROCESSED_DATA_PATH
+    source = data_path or Config.paths.PROCESSED_DATASET
     if not source.exists():
         raise FileNotFoundError(f"Processed dataset not found at {source}")
     df = pd.read_csv(source)
@@ -360,19 +348,19 @@ def save_artifacts(
     curves: Dict[str, Any],
 ) -> None:
     """Persist model artifacts, metrics, curves, and human-readable summary."""
-    MODEL_DIR.mkdir(parents=True, exist_ok=True)
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    Config.paths.MODEL_DIR.mkdir(parents=True, exist_ok=True)
+    Config.paths.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    with open(BEST_MODEL_PATH, "wb") as f:
+    with open(Config.paths.BEST_MODEL, "wb") as f:
         pickle.dump(artifacts.model, f)
-    with open(SCALER_PATH, "wb") as f:
+    with open(Config.paths.SCALER, "wb") as f:
         pickle.dump(artifacts.scaler, f)
-    with open(FEATURE_NAMES_PATH, "wb") as f:
+    with open(Config.paths.FEATURE_NAMES, "wb") as f:
         pickle.dump(artifacts.feature_names, f)
 
-    pd.DataFrame(results).to_csv(COMPARISON_PATH, index=False)
-    METRICS_PATH.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
-    CURVES_PATH.write_text(json.dumps(curves, indent=2), encoding="utf-8")
+    pd.DataFrame(results).to_csv(Config.paths.MODEL_COMPARISON, index=False)
+    Config.paths.MODEL_METRICS.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    (Config.paths.OUTPUT_DIR / "model_curves.json").write_text(json.dumps(curves, indent=2), encoding="utf-8")
 
     metadata = {
         "model_name": artifacts.best_model_name,
@@ -387,7 +375,7 @@ def save_artifacts(
             "performance": asdict(Config.performance),
         },
     }
-    METADATA_PATH.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+    Config.paths.MODEL_METADATA.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
 
     ranking = sorted(results, key=lambda row: (row["Average Precision"], row["ROC AUC"], row["F1"]), reverse=True)
     lines = [
@@ -414,7 +402,7 @@ def save_artifacts(
             "- Dashboard artifacts include metrics, curves, feature names, and model metadata.",
         ]
     )
-    SUMMARY_PATH.write_text("\n".join(lines), encoding="utf-8")
+    Config.paths.TRAINING_SUMMARY.write_text("\n".join(lines), encoding="utf-8")
 
 
 def build_curves(y_true: pd.Series, y_prob: np.ndarray) -> Dict[str, Any]:

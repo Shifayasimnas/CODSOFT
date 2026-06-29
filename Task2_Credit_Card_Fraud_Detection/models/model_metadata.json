@@ -1,0 +1,73 @@
+{
+  "model_name": "Random Forest",
+  "model_version": "1.0.0",
+  "threshold": 0.9820109188380067,
+  "feature_count": 31,
+  "feature_names": [
+    "amt",
+    "lat",
+    "long",
+    "city_pop",
+    "merch_lat",
+    "merch_long",
+    "transaction_hour",
+    "transaction_day",
+    "transaction_month",
+    "transaction_weekday",
+    "transaction_quarter",
+    "is_weekend",
+    "time_of_day",
+    "is_late_night",
+    "log_amount",
+    "amount_category",
+    "is_high_value",
+    "amount_percentile",
+    "gender_encoded",
+    "merchant_transaction_count",
+    "merchant_category_count",
+    "state_transaction_count",
+    "city_transaction_count",
+    "zip_transaction_count",
+    "customer_transaction_count",
+    "customer_avg_amount",
+    "merchant_avg_amount",
+    "merchant_encoded",
+    "category_encoded",
+    "city_encoded",
+    "state_encoded"
+  ],
+  "target_column": "is_fraud",
+  "created_at_utc": "2026-06-26T17:44:22.693023+00:00",
+  "config": {
+    "model": {
+      "TARGET_COLUMN": "is_fraud",
+      "TEST_SIZE": 0.2,
+      "RANDOM_STATE": 42,
+      "CV_FOLDS": 5,
+      "STRATIFY": true,
+      "SMOTE_RANDOM_STATE": 42,
+      "SMOTE_SAMPLING_STRATEGY": 0.5,
+      "SCALER_TYPE": "standard",
+      "ENABLE_HYPERPARAMETER_TUNING": true,
+      "TUNING_CV_FOLDS": 3,
+      "N_ITER_SEARCH": 10,
+      "ENABLE_THRESHOLD_OPTIMIZATION": true,
+      "THRESHOLD_METRIC": "f1",
+      "ENABLE_CALIBRATION": true,
+      "CALIBRATION_METHOD": "sigmoid",
+      "MODELS_TO_TRAIN": [
+        "logistic_regression",
+        "decision_tree",
+        "random_forest",
+        "xgboost"
+      ]
+    },
+    "performance": {
+      "ENABLE_CACHING": false,
+      "CACHE_TTL_SECONDS": 3600,
+      "BATCH_SIZE": 1000,
+      "N_JOBS": -1,
+      "REDUCE_MEMORY_USAGE": true
+    }
+  }
+}

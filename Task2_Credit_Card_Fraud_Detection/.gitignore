@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+.venv/
+
+# Trained models
+models/*.pkl
+
+# Large generated outputs
+outputs/processed_dataset.csv
+outputs/model_curves.json
+
+# Optional generated files
+outputs/prediction_history.csv

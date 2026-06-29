@@ -11,7 +11,7 @@ from typing import Callable, Optional, Tuple, TypeVar
 
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
 
 warnings.filterwarnings("ignore")
 
@@ -22,6 +22,21 @@ OUTPUT_DIR = ROOT_DIR / "outputs"
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 TARGET_COLUMN = "is_fraud"
 F = TypeVar("F", bound=Callable[..., object])
+
+
+def _compute_fraud_rate_by_group(df: pd.DataFrame, group_col: str) -> pd.Series:
+    """Compute fraud rate by group for a categorical feature."""
+    return (
+        df.groupby(group_col)[TARGET_COLUMN]
+        .apply(lambda x: (x == 1).sum() / len(x) if len(x) > 0 else 0)
+        .fillna(0)
+    )
+
+
+def _is_datetime_series(series: pd.Series) -> bool:
+    """Determine whether a series contains mostly parsable datetime values."""
+    converted = pd.to_datetime(series, errors="coerce")
+    return converted.notna().sum() > len(series) * 0.8
 
 
 def timed_step(func: F) -> F:
@@ -91,15 +106,8 @@ def detect_column_types(df: pd.DataFrame) -> Tuple[list, list, list]:
     numerical_cols = df.select_dtypes(include=[np.number]).columns.tolist()
     categorical_cols = df.select_dtypes(include=["object"]).columns.tolist()
 
-    datetime_cols = []
-    for col in categorical_cols:
-        try:
-            pd.to_datetime(df[col], errors="coerce")
-            if pd.to_datetime(df[col], errors="coerce").notna().sum() > len(df) * 0.8:
-                datetime_cols.append(col)
-                categorical_cols.remove(col)
-        except (ValueError, TypeError):
-            pass
+    datetime_cols = [col for col in categorical_cols if _is_datetime_series(df[col])]
+    categorical_cols = [col for col in categorical_cols if col not in datetime_cols]
 
     return numerical_cols, categorical_cols, datetime_cols
 
@@ -334,19 +342,17 @@ def create_location_features(df: pd.DataFrame) -> pd.DataFrame:
     if state_cols:
         state_col = state_cols[0]
         df_copy["state_transaction_count"] = df_copy.groupby(state_col)[state_col].transform("count")
-        state_fraud_rate = (
-            df_copy.groupby(state_col)[TARGET_COLUMN].apply(lambda x: (x == 1).sum() / len(x) if len(x) > 0 else 0)
-        )
-        df_copy["state_fraud_rate"] = df_copy[state_col].map(state_fraud_rate).fillna(0)
+        df_copy["state_fraud_rate"] = df_copy[state_col].map(
+            _compute_fraud_rate_by_group(df_copy, state_col)
+        ).fillna(0)
 
     # City features
     if city_cols:
         city_col = city_cols[0]
         df_copy["city_transaction_count"] = df_copy.groupby(city_col)[city_col].transform("count")
-        city_fraud_rate = (
-            df_copy.groupby(city_col)[TARGET_COLUMN].apply(lambda x: (x == 1).sum() / len(x) if len(x) > 0 else 0)
-        )
-        df_copy["city_fraud_rate"] = df_copy[city_col].map(city_fraud_rate).fillna(0)
+        df_copy["city_fraud_rate"] = df_copy[city_col].map(
+            _compute_fraud_rate_by_group(df_copy, city_col)
+        ).fillna(0)
 
     # ZIP code features
     if zip_cols:
